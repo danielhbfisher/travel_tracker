@@ -57,7 +57,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: './public/index.html', // Ensure this path is correct
-      filename: './index.html',
+      filename: 'index.html',
     }),
   ],
   devServer: {
