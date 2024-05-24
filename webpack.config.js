@@ -1,12 +1,14 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const Dotenv = require('dotenv-webpack');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   entry: './src/index.js',
   output: {
-    path: path.resolve(__dirname, 'build'), // Changed from 'dist' to 'build'
+    path: path.resolve(__dirname, 'public/build'), // Corrected path
     filename: 'bundle.js',
-    publicPath: '/' // Ensure correct routing
+    publicPath: '/',
   },
   resolve: {
     extensions: ['.js', '.jsx', '.ts', '.tsx'],
@@ -56,15 +58,24 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './public/index.html', // Ensure this path is correct
+      template: './src/index.html',
       filename: 'index.html',
+      inject: 'body',
+      scriptLoading: 'defer', // Ensure scripts are loaded asynchronously
     }),
+    new Dotenv(), // Add this line to load environment variables
+    new CopyWebpackPlugin({
+      patterns: [
+        { from: 'public', to: '' }, // Copy all files from public to the root of the output directory
+      ],
+    }),    
   ],
   devServer: {
     static: path.join(__dirname, 'public'),
     compress: true,
     port: 8081,
-    historyApiFallback: true // Ensure routing works correctly in development
+    historyApiFallback: true,
   },
-  mode: 'development', // Add this line to set the mode to development
+  mode: 'development',
+  stats: 'verbose',
 };

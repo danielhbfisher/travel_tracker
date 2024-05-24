@@ -1,25 +1,26 @@
-// /workspaces/travel_tracker/src/DateRangePickerComponent.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import 'react-dates/initialize';
 import 'react-dates/lib/css/_datepicker.css';
 import { DateRangePicker } from 'react-dates';
-import 'react-dates/initialize';
+import moment from 'moment';
 
 const DateRangePickerComponent = ({ setStayDuration }) => {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [focusedInput, setFocusedInput] = useState(null);
 
-  const handleDatesChange = ({ startDate, endDate }) => {
-    setStartDate(startDate);
-    setEndDate(endDate);
-
+  useEffect(() => {
     if (startDate && endDate) {
       setStayDuration({
         startDate: startDate.format('YYYY-MM-DD'),
         endDate: endDate.format('YYYY-MM-DD'),
       });
     }
+  }, [startDate, endDate]); // Removed setStayDuration to prevent infinite updates
+
+  const handleDatesChange = ({ startDate, endDate }) => {
+    setStartDate(startDate);
+    setEndDate(endDate);
   };
 
   return (

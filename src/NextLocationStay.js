@@ -1,5 +1,4 @@
-// /workspaces/travel_tracker/src/NextLocationStay.js
-import React, { useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore';
 import { UserContext } from './UserContext';
 

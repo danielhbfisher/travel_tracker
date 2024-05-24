@@ -1,4 +1,3 @@
-// /workspaces/travel_tracker/src/UserContext.js
 import React, { createContext, useState, useEffect } from 'react';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 

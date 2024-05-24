@@ -1,34 +1,21 @@
 // /workspaces/travel_tracker/src/GooglePlacesAutocomplete.js
-import React from 'react';
-import { useLoadScript } from '@react-google-maps/api';
-
-const libraries = ['places'];
+import React, { useEffect, useRef } from 'react';
 
 const GooglePlacesAutocomplete = ({ setLocation }) => {
-  const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: 'AIzaSyAFvxf4s9g-wEHdzCRF1pliyUyCEsfBq5M', // Your Google API key
-    libraries,
-  });
+  const autocompleteRef = useRef(null);
 
-  if (loadError) return <div>Error loading maps</div>;
-  if (!isLoaded) return <div>Loading maps</div>;
-
-  return <PlacesAutocompleteInput setLocation={setLocation} />;
-};
-
-const PlacesAutocompleteInput = ({ setLocation }) => {
-  const autocompleteRef = React.useRef(null);
-
-  React.useEffect(() => {
-    if (window.google) {
+  useEffect(() => {
+    if (window.google && window.google.maps) {
       const autocomplete = new window.google.maps.places.Autocomplete(autocompleteRef.current, {
-        types: ['(cities)'], // Restrict to cities
+        types: ['(cities)'],
       });
 
       autocomplete.addListener('place_changed', () => {
         const place = autocomplete.getPlace();
         setLocation(place.formatted_address);
       });
+    } else {
+      console.error('Google Maps JavaScript API not loaded');
     }
   }, []);
 
